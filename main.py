@@ -42,12 +42,12 @@ def create_sector(sector_name):
 	a += close_sector()
 	return a
 
-def create_header(name, version): # Kopf
+def create_header(name, typ, version): # Kopf
 	a = ""
 	a += nl
 	a += open_sector()
 	a += nl
-	a += "   File                   :     " + name + ".h" + nl
+	a += "   File                   :     " + name + typ + nl
 	a += "   Change                 :     " + nl
 	a += "   Version                :     " + version + nl
 	a += nl
@@ -85,19 +85,44 @@ def create_ini_prototyp(name):
 	a += nl
 	return a
 
+def create_ini_function(name):
+	a = ""
+	a += nl
+	a += "void "
+	a += name.upper()
+	a += "_Ini (void)" + nl
+	a += "{" + nl
+	a += nl
+	a += "}" + nl
+	return a
+
 def create_changes_section():
 	a = ""
 	a += nl
 	a += open_sector()
 	a += nl
 	a += three_spaces()
-	a += "Changes"
+	a += "Changes   :"
 	a += nl
 	a += nl
 	a += nl
 	a += nl
 	a += close_sector()
 	return a
+
+
+def create_function_description():
+	a = ""
+	a += nl
+	a += open_sector()
+	a += nl
+	a += "   Description    :     " + nl
+	a += "   Parameter      :     " + nl
+	a += "   Return Value   :     " + nl
+	a += nl
+	a += close_sector()
+	return a
+
 
 # Argparse
 parser = argparse.ArgumentParser()
@@ -106,9 +131,9 @@ parser.add_argument("--modul_name", help="")
 args = parser.parse_args()
 
 
-
+# Create .h File
 a = ""
-a += create_header(args.modul_name, "1")
+a += create_header(args.modul_name, ".h","1")
 a += create_compiler_switch_start(args.modul_name)
 a += create_sector("Include Files")
 a += create_sector("Global Constants")
@@ -124,4 +149,29 @@ f = open(os.path.join(args.output_folder,args.modul_name + ".h"), "w")
 f.write(a)
 f.close()
 
-print(a)
+#print(a)
+
+
+
+
+
+# Create .c File
+a = ""
+a += create_header(args.modul_name, ".c","1")
+a += create_sector("Include Files")
+a += create_sector("Local Constants")
+a += create_sector("Local Type Definitions")
+a += create_sector("Local Variables")
+a += create_sector("Local Function Prototypes")
+a += create_sector("Local Functions")
+a += create_sector("Global Functions")
+a += create_function_description()
+a += create_ini_function(args.modul_name)
+a += create_changes_section()
+
+
+f = open(os.path.join(args.output_folder,args.modul_name + ".c"), "w")
+f.write(a)
+f.close()
+
+#print(a)
