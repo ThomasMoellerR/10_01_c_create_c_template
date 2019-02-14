@@ -106,11 +106,10 @@ def create_changes_section():
 	a = ""
 	a += nl
 	a += open_sector()
-	a += abstand() + nl
 	a += write_text("Changes") + nl
-	a += abstand() + nl
-	a += abstand() + nl
-	a += abstand() + nl
+	a += abstand() + "{:16s}  ".format("") + nl
+	a += abstand() + "{:16s}  ".format("") + nl
+	a += abstand() + "{:16s}  ".format("") + nl
 	a += close_sector()
 	return a
 
