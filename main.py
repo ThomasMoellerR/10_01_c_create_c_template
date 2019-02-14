@@ -20,16 +20,17 @@ def close_sector():
 	a += nl
 	return a
 
-def three_spaces():
+def write():
 	a = ""
-	for i in range(3):
+	a += "*" 
+	for i in range(2):
 		a += " "
 	return a
 
 
 def insert_sector_name(sector_name):
 	a = ""
-	a += three_spaces()
+	a += write()
 	a += sector_name
 	a += nl
 	return a
@@ -46,11 +47,8 @@ def create_header(name, typ, version): # Kopf
 	a = ""
 	a += nl
 	a += open_sector()
-	a += nl
-	a += "   File                   :     " + name + typ + nl
-	a += "   Change                 :     " + nl
-	a += "   Version                :     " + version + nl
-	a += nl
+	a += write() + "File           :  " + name + typ + nl
+	a += write() + "Version        :  " + version + nl
 	a += close_sector()
 	return a
 
@@ -61,7 +59,7 @@ def create_compiler_switch_start(name):
 	a += name.upper()
 	a += "_H"
 	a += nl
-	a += "   #define __"
+	a += "#define __"
 	a += name.upper()
 	a += "_H"
 	a += nl
@@ -100,13 +98,12 @@ def create_changes_section():
 	a = ""
 	a += nl
 	a += open_sector()
-	a += nl
-	a += three_spaces()
-	a += "Changes   :"
-	a += nl
-	a += nl
-	a += nl
-	a += nl
+	a += write() + nl
+	a += write()
+	a += "Changes        :  " + nl
+	a += write() + nl
+	a += write() + nl
+	a += write() + nl
 	a += close_sector()
 	return a
 
@@ -115,13 +112,20 @@ def create_function_description():
 	a = ""
 	a += nl
 	a += open_sector()
-	a += nl
-	a += "   Description    :     " + nl
-	a += "   Parameter      :     " + nl
-	a += "   Return Value   :     " + nl
-	a += nl
+	a += write() + "Function Name  :  " + nl
+	a += write() + "Description    :  " + nl
+	a += write() + "Parameter(s)   :  " + nl
+	a += write() + "Return Value   :  " + nl
 	a += close_sector()
 	return a
+
+def end_of_file(name):
+	a = ""
+	a += nl
+	a += open_sector()
+	a += write() + "END OF FILE    :  " + name + ".h" + nl
+	a += close_sector()
+	return a	
 
 
 # Argparse
@@ -143,7 +147,7 @@ a += create_sector("Global Function Prototypes")
 a += create_ini_prototyp(args.modul_name)
 a += create_changes_section()
 a += create_compiler_switch_end(args.modul_name)
-
+a += end_of_file(args.modul_name)
 
 f = open(os.path.join(args.output_folder,args.modul_name + ".h"), "w")
 f.write(a)
@@ -168,7 +172,7 @@ a += create_sector("Global Functions")
 a += create_function_description()
 a += create_ini_function(args.modul_name)
 a += create_changes_section()
-
+a += end_of_file(args.modul_name)
 
 f = open(os.path.join(args.output_folder,args.modul_name + ".c"), "w")
 f.write(a)
