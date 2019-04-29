@@ -154,6 +154,13 @@ def create_extern_c_end():
 	a += nl
 	return a
 
+def include_own_file():
+	a = ""
+	a += nl
+	a += "#include \"" + args.modul_name + "\"" + nl
+	return a
+
+
 
 # Argparse
 parser = argparse.ArgumentParser()
@@ -192,6 +199,7 @@ f.close()
 a = ""
 a += create_header(args.modul_name, ".c","1")
 a += create_sector("Include Files")
+a += include_own_file()
 a += create_sector("Local Constants")
 a += create_sector("Local Type Definitions")
 a += create_sector("Local Variables")
