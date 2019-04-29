@@ -1,3 +1,3 @@
 cmd /k py "C:\A\create_c_template\main.py" ^
 --output_folder ".\output" ^
---modul_name "tmp" ^
+--modul_name "buf" ^

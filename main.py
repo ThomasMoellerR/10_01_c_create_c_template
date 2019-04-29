@@ -157,7 +157,7 @@ def create_extern_c_end():
 def include_own_file():
 	a = ""
 	a += nl
-	a += "#include \"" + args.modul_name + "\"" + nl
+	a += "#include \"" + args.modul_name + ".h\"" + nl
 	return a
 
 
