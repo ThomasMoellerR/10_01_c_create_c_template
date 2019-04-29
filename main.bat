@@ -1,3 +1,3 @@
-cmd /k py C:\Users\computer\Downloads\create_c_template-master\create_c_template-master\main.py ^
---output_folder "C:\Users\computer\Downloads\create_c_template-master\create_c_template-master\output" ^
---modul_name "ser" ^
+cmd /k py "C:\A\create_c_template\main.py" ^
+--output_folder ".\output" ^
+--modul_name "tmp" ^

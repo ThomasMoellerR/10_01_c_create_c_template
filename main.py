@@ -61,7 +61,7 @@ def create_header(name, typ, version): # Kopf
 	a += close_sector()
 	return a
 
-def create_compiler_switch_start(name):
+def create_define_start(name):
 	a = ""
 	a += nl
 	a += "#ifndef __"
@@ -72,9 +72,10 @@ def create_compiler_switch_start(name):
 	a += name.upper()
 	a += "_H"
 	a += nl
+	
 	return a
 
-def create_compiler_switch_end(name):
+def create_define_end(name):
 	a = ""
 	a += "#endif /* __"
 	a += name.upper()
@@ -136,13 +137,20 @@ def end_of_file(name):
 def create_extern_c_start():
 	a = ""
 	a += nl
-	a += "extern " + ss + "C" + ss + " {" + nl
+	a += "#ifdef __cplusplus"
+	a += nl
+	a += "extern \"C\" {"
+	a += nl
+	a += "#endif"
+	a += nl
 	return a
 
 def create_extern_c_end():
 	a = ""
 	a += nl
+	a += "#ifdef __cplusplus" + nl
 	a += "}" + nl
+	a += "#endif" +nl
 	a += nl
 	return a
 
@@ -157,7 +165,7 @@ args = parser.parse_args()
 # Create .h File
 a = ""
 a += create_header(args.modul_name, ".h","1")
-a += create_compiler_switch_start(args.modul_name)
+a += create_define_start(args.modul_name)
 a += create_extern_c_start()
 a += create_sector("Include Files")
 a += create_sector("Global Constants")
@@ -167,7 +175,7 @@ a += create_sector("Global Function Prototypes")
 a += create_ini_prototyp(args.modul_name)
 a += create_changes_section()
 a += create_extern_c_end()
-a += create_compiler_switch_end(args.modul_name)
+a += create_define_end(args.modul_name)
 a += end_of_file(args.modul_name)
 
 f = open(os.path.join(args.output_folder,args.modul_name + ".h"), "w")
