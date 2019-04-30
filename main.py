@@ -156,9 +156,14 @@ def create_extern_c_end():
 
 def include_own_file():
 	a = ""
+	#a += nl
+	a += "#include \"" + args.modul_name + ".h\"" + nl
+	return a
+	
+def include_typ_h():
+	a = ""
 	a += nl
 	a += "#include \"typ.h\"" + nl
-	a += "#include \"" + args.modul_name + ".h\"" + nl
 	return a
 
 def create_extern_variable_declaration(name):
@@ -192,6 +197,7 @@ args = parser.parse_args()
 a = ""
 a += create_header(args.modul_name, ".c","1")
 a += create_sector("Include Files")
+a += include_typ_h()
 a += include_own_file()
 a += create_sector("Local Constants")
 a += create_sector("Local Type Definitions")
@@ -220,6 +226,7 @@ a += create_header(args.modul_name, ".h","1")
 a += create_define_start(args.modul_name)
 a += create_extern_c_start()
 a += create_sector("Include Files")
+a += include_typ_h()
 a += create_sector("Global Constants")
 a += create_sector("Global Type Definitions")
 a += create_sector("Global Variables")
