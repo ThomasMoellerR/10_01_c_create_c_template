@@ -86,7 +86,7 @@ def create_define_end(name):
 def create_ini_prototyp(name):
 	a = ""
 	a += nl
-	a += "void "
+	a += "extern void "
 	a += name.upper()
 	a += "_Ini (void);"
 	a += nl
@@ -160,6 +160,22 @@ def include_own_file():
 	a += "#include \"" + args.modul_name + ".h\"" + nl
 	return a
 
+def create_extern_variable_declaration(name):
+	a = ""
+	a += nl
+	a += "extern "
+	a += name.upper()
+	a += "_Temp;"
+	a += nl
+	return a
+
+def create_extern_variable_definition(name):
+	a = ""
+	a += nl
+	a += name.upper()
+	a += "_Temp = 0;"
+	a += nl
+	return a
 
 
 # Argparse
@@ -167,6 +183,33 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--output_folder", help="")
 parser.add_argument("--modul_name", help="")
 args = parser.parse_args()
+
+
+
+# Create .c File
+a = ""
+a += create_header(args.modul_name, ".c","1")
+a += create_sector("Include Files")
+a += include_own_file()
+a += create_sector("Local Constants")
+a += create_sector("Local Type Definitions")
+a += create_sector("Local Variables")
+a += create_sector("Global Variables")
+a += create_extern_variable_definition(args.modul_name)
+a += create_sector("Local Function Prototypes")
+a += create_sector("Local Functions")
+a += create_sector("Global Functions")
+a += create_function_description()
+a += create_ini_function(args.modul_name)
+a += create_changes_section()
+a += end_of_file(args.modul_name)
+
+f = open(os.path.join(args.output_folder,args.modul_name + ".c"), "w")
+f.write(a)
+f.close()
+
+#print(a)
+
 
 
 # Create .h File
@@ -178,6 +221,7 @@ a += create_sector("Include Files")
 a += create_sector("Global Constants")
 a += create_sector("Global Type Definitions")
 a += create_sector("Global Variables")
+a += create_extern_variable_declaration(args.modul_name)
 a += create_sector("Global Function Prototypes")
 a += create_ini_prototyp(args.modul_name)
 a += create_changes_section()
@@ -195,26 +239,5 @@ f.close()
 
 
 
-# Create .c File
-a = ""
-a += create_header(args.modul_name, ".c","1")
-a += create_sector("Include Files")
-a += include_own_file()
-a += create_sector("Local Constants")
-a += create_sector("Local Type Definitions")
-a += create_sector("Local Variables")
-a += create_sector("Local Function Prototypes")
-a += create_sector("Local Functions")
-a += create_sector("Global Functions")
-a += create_function_description()
-a += create_ini_function(args.modul_name)
-a += create_changes_section()
-a += end_of_file(args.modul_name)
-
-f = open(os.path.join(args.output_folder,args.modul_name + ".c"), "w")
-f.write(a)
-f.close()
-
-#print(a)
 
 
