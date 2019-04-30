@@ -1,3 +1,3 @@
 call py "C:\A\create_c_template\main.py" ^
 --output_folder ".\output" ^
---modul_name "spi1" ^
+--modul_name "ctl" ^
