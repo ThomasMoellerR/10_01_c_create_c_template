@@ -157,13 +157,14 @@ def create_extern_c_end():
 def include_own_file():
 	a = ""
 	a += nl
+	a += "#include \"typ.h\"" + nl
 	a += "#include \"" + args.modul_name + ".h\"" + nl
 	return a
 
 def create_extern_variable_declaration(name):
 	a = ""
 	a += nl
-	a += "extern "
+	a += "extern TUINT8 "
 	a += name.upper()
 	a += "_Temp;"
 	a += nl
@@ -172,6 +173,7 @@ def create_extern_variable_declaration(name):
 def create_extern_variable_definition(name):
 	a = ""
 	a += nl
+	a += "TUINT8 "
 	a += name.upper()
 	a += "_Temp = 0;"
 	a += nl
