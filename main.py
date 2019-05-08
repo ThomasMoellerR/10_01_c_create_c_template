@@ -2,6 +2,8 @@ import argparse
 import time
 import os
 import time
+import shutil
+
 
 nl = "\n" # newline
 ss = "\"" # string sign
@@ -191,6 +193,10 @@ parser.add_argument("--output_folder", help="")
 parser.add_argument("--modul_name", help="")
 args = parser.parse_args()
 
+# Deletes output Folder and creates output folder. All files will be deleted.
+try: shutil.rmtree(args.output_folder)
+except: pass
+os.makedirs(args.output_folder, exist_ok=True)
 
 
 # Create .c File
